@@ -1,45 +1,45 @@
 ---
 name: commit-msg
-description: 변경 사항을 분석하여 커밋 메시지를 추천합니다.
+description: Analyze changes and recommend commit messages.
 ---
 
-# Git 커밋 메시지 추천
+# Git Commit Message Recommendation
 
-## 사전 조건
-- 현재 디렉토리가 git 저장소인지 확인하세요.
-- `.my-ops-config.json` 파일이 있는지 확인하세요. 없으면 사용자에게 `/my-ops:setup`을 먼저 실행하라고 안내하세요.
+## Prerequisites
+- Verify the current directory is a git repository.
+- Check if `.my-ops-config.json` exists. If not, tell the user to run `/my-ops:setup` first.
 
-## 실행 순서
+## Steps
 
-### 1. 설정 로드
-프로젝트 루트의 `.my-ops-config.json`에서 `commitConvention`과 `commitLanguage`를 읽으세요.
+### 1. Load Configuration
+Read `commitConvention` and `commitLanguage` from `.my-ops-config.json` in the project root.
 
-### 2. 변경 사항 분석
-다음 명령을 실행하여 변경 내용을 파악하세요:
-- `git status` — 변경된 파일 목록 확인
-- `git diff` — 스테이징되지 않은 변경 사항
-- `git diff --cached` — 이미 스테이징된 변경 사항
+### 2. Analyze Changes
+Run the following to understand the changes:
+- `git status` — list of changed files
+- `git diff` — unstaged changes
+- `git diff --cached` — staged changes
 
-변경 사항이 없으면 "커밋할 변경 사항이 없습니다"라고 안내하세요.
+If there are no changes, inform the user: "No changes to commit."
 
-### 3. 커밋 메시지 생성
-변경 내용을 분석하여 사용자의 컨벤션에 맞는 커밋 메시지를 **3개** 추천하세요.
+### 3. Generate Commit Messages
+Analyze the changes and recommend **3** commit messages matching the user's convention.
 
-각 메시지는:
-- 사용자가 설정한 컨벤션 형식을 따를 것
-- 사용자가 설정한 언어로 작성할 것
-- "what"보다 "why"에 초점을 맞출 것
-- 간결하게 1-2줄로 작성할 것
+Each message should:
+- Follow the user's configured convention format
+- Be written in the user's configured language
+- Focus on "why" rather than "what"
+- Be concise, 1-2 lines
 
-### 4. 결과 표시
-추천 메시지를 번호와 함께 보여주세요:
+### 4. Display Results
+Show the recommended messages with numbers:
 
 ```
-추천 커밋 메시지:
-1. feat: 사용자 인증 흐름에 OAuth2 지원 추가
-2. feat: OAuth2 로그인 기능 구현
-3. feat(auth): Google/GitHub OAuth2 연동
+Recommended commit messages:
+1. feat: add OAuth2 support to user auth flow
+2. feat: implement OAuth2 login
+3. feat(auth): integrate Google/GitHub OAuth2
 ```
 
-사용자에게 번호를 선택하거나, 직접 수정할 수 있다고 안내하세요.
-메시지 추천만 하고, 커밋은 하지 마세요. 커밋은 `/my-ops:commit`에서 처리합니다.
+Let the user know they can pick a number or write their own.
+Only recommend messages — do NOT commit. Committing is handled by `/my-ops:commit`.

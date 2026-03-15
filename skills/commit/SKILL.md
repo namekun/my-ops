@@ -1,45 +1,45 @@
 ---
 name: commit
-description: 변경 사항을 스테이징하고 추천 메시지로 커밋합니다. push는 하지 않습니다.
+description: Stage changes and commit with a recommended message. Does not push.
 ---
 
 # Git Commit
 
-## 사전 조건
-- 현재 디렉토리가 git 저장소인지 확인하세요.
-- `.my-ops-config.json` 파일이 있는지 확인하세요. 없으면 `/my-ops:setup`을 먼저 실행하라고 안내하세요.
+## Prerequisites
+- Verify the current directory is a git repository.
+- Check if `.my-ops-config.json` exists. If not, tell the user to run `/my-ops:setup` first.
 
-## 실행 순서
+## Steps
 
-### 1. 설정 로드
-프로젝트 루트의 `.my-ops-config.json`에서 커밋 관련 설정을 읽으세요.
+### 1. Load Configuration
+Read commit-related settings from `.my-ops-config.json` in the project root.
 
-### 2. 변경 사항 확인
-다음을 실행하세요:
-- `git status` — 전체 상태 확인 (절대 `-uall` 플래그 사용하지 말 것)
-- `git diff` — 스테이징되지 않은 변경
-- `git diff --cached` — 이미 스테이징된 변경
+### 2. Check Changes
+Run:
+- `git status` — overall status (NEVER use the `-uall` flag)
+- `git diff` — unstaged changes
+- `git diff --cached` — already staged changes
 
-변경 사항이 없으면 "커밋할 변경 사항이 없습니다"라고 안내하세요.
+If there are no changes, inform the user: "No changes to commit."
 
-### 3. 변경 파일 표시 및 스테이징
-변경된 파일 목록을 보여주고, 어떤 파일을 스테이징할지 사용자에게 물어보세요.
-- "전체 스테이징"을 선택하면 관련 파일을 `git add`
-- 특정 파일만 선택하면 해당 파일만 `git add`
-- `.env`, credentials 등 민감한 파일은 경고하세요
+### 3. Show Changed Files and Stage
+Show the list of changed files and ask the user which files to stage.
+- If "stage all" is selected, `git add` the relevant files
+- If specific files are selected, `git add` only those
+- Warn about sensitive files like `.env`, credentials, etc.
 
-**주의**: `git add -A`나 `git add .` 대신 파일명을 명시하여 추가하세요.
+**Important**: Use explicit filenames instead of `git add -A` or `git add .`.
 
-### 4. 커밋 메시지 추천
-`/my-ops:commit-msg` 스킬과 동일한 방식으로 변경 내용을 분석하여 커밋 메시지 3개를 추천하세요.
-사용자가 번호를 선택하거나 직접 작성할 수 있습니다.
+### 4. Recommend Commit Messages
+Analyze the staged changes and recommend 3 commit messages following the user's convention (same approach as `/my-ops:commit-msg`).
+The user can pick a number or write their own.
 
-### 5. 커밋 실행
-선택된 메시지로 커밋합니다.
-- HEREDOC 방식으로 커밋 메시지를 전달하세요
-- `--no-verify` 플래그는 사용하지 마세요
-- pre-commit hook이 실패하면 원인을 파악하고 수정 후 새 커밋을 시도하세요 (amend 금지)
+### 5. Execute Commit
+Commit with the selected message.
+- Pass the commit message via HEREDOC
+- Do NOT use the `--no-verify` flag
+- If a pre-commit hook fails, investigate the cause, fix it, and create a new commit (never amend)
 
-### 6. 결과 확인
-커밋 후 `git log --oneline -1`로 결과를 보여주세요.
-push는 하지 않습니다. push가 필요하면 `/my-ops:push`를 안내하세요.
+### 6. Verify Result
+Show the result with `git log --oneline -1`.
+Do NOT push. If push is needed, suggest `/my-ops:push`.

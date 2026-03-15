@@ -1,11 +1,11 @@
 {
   "name": "my-ops",
-  "owner": "namkun",
-  "description": "나만의 개발 워크플로 도구 - git 커밋, 푸시, 세션 기록",
+  "owner": "namekun",
+  "description": "Personal dev workflow toolkit - git commit, push, and Notion session logging",
   "plugins": [
     {
       "name": "my-ops",
-      "description": "Git 워크플로 + Notion 세션 기록 플러그인",
+      "description": "Git workflow + Notion session logging plugin",
       "version": "1.0.0",
       "source": "."
     }
