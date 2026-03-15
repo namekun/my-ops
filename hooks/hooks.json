@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before context compaction, automatically log this session to Notion. Check if .my-ops-config.json exists in the project root. If it does, follow the session-log skill: summarize the conversation, collect changed files (git diff --name-only), recent commits (git log --oneline --since='today'), and lessons learned. Then create a Notion page using the configured settings. If .my-ops-config.json does not exist, skip logging silently."
+          }
+        ]
+      }
+    ]
+  }
+}
