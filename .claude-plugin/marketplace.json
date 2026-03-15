@@ -1,13 +1,16 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "my-ops",
-  "owner": "namekun",
+  "owner": {
+    "name": "namekun"
+  },
   "description": "Personal dev workflow toolkit - git commit, push, and Notion session logging",
   "plugins": [
     {
       "name": "my-ops",
       "description": "Git workflow + Notion session logging plugin",
       "version": "1.0.0",
-      "source": "."
+      "source": "./"
     }
   ]
 }
