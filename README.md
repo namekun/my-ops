@@ -150,6 +150,8 @@ Copilot Chat에서 자연어로 호출합니다:
 
 설정은 프로젝트 루트의 `.my-ops-config.json`에 저장됩니다.
 
+> **Git 플랫폼 자동 감지**: setup 시 `git remote` URL을 분석하여 GitHub/GitLab/Bitbucket을 자동으로 감지합니다. pr, issue, review 스킬이 플랫폼에 맞는 CLI를 자동으로 사용합니다.
+
 ### 2. 일상 워크플로
 
 ```
@@ -180,6 +182,7 @@ PR 생성 (pr)
 {
   "commitConvention": "conventional",
   "commitLanguage": "en",
+  "gitPlatform": "github",
   "notion": {
     "pageId": "your-notion-page-id",
     "pageName": "Dev Log",
@@ -252,7 +255,10 @@ my-ops/
 ## 요구 사항
 
 - [Claude Code](https://claude.com/claude-code), [Cursor](https://cursor.com), 또는 [GitHub Copilot](https://github.com/features/copilot) 중 하나
-- `gh` CLI ([GitHub CLI](https://cli.github.com/)) — pr, issue, review 기능 사용 시
+- Git 호스팅 플랫폼 CLI (pr, issue, review 기능 사용 시):
+  - GitHub: [`gh`](https://cli.github.com/)
+  - GitLab: [`glab`](https://gitlab.com/gitlab-org/cli)
+  - Bitbucket: API 사용 (`BITBUCKET_USER`, `BITBUCKET_APP_PASSWORD` 환경변수 필요)
 - Notion 연동 (session-log 사용 시)
   - Claude Code: Notion MCP 서버 연결
   - Cursor / Copilot: Notion API 키 설정

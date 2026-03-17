@@ -1,10 +1,14 @@
-# my-ops GitHub Issue Creation
+# my-ops Issue Creation
 
 When the user asks to "issue", "이슈 만들어", "이슈", or "bug report", run this process.
 
 ## Prerequisites
-- Verify git repo with GitHub remote.
-- Check `gh` CLI is available.
+- Verify git repo with a remote.
+- Detect platform from `git remote get-url origin`:
+  - `github.com` → GitHub (`gh` CLI)
+  - `gitlab.com` or `gitlab` → GitLab (`glab` CLI)
+  - `bitbucket.org` or `bitbucket` → Bitbucket (API)
+- Check the appropriate CLI is installed.
 
 ## Steps
 
@@ -22,7 +26,9 @@ Infer: Bug, Feature, Enhancement, Documentation
 Show generated content. Let user edit, add labels, assign.
 
 ### 5. Create Issue
-`gh issue create --title "..." --body "..." --label "..."`
+- GitHub: `gh issue create --title "..." --body "..." --label "..."`
+- GitLab: `glab issue create --title "..." --description "..." --label "..."`
+- Bitbucket: API via `curl`
 
 ### 6. Show Result
 Display issue URL and number. Suggest creating a branch.

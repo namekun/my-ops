@@ -19,13 +19,18 @@ Ask which language to write commit messages in:
 - English
 - Mixed (e.g., type in English, description in Korean)
 
-### 3. Notion Session Log Page
+### 3. Git Platform (Auto-detect)
+Detect from `git remote get-url origin`:
+- `github.com` → GitHub, `gitlab.com`/`gitlab` → GitLab, `bitbucket.org`/`bitbucket` → Bitbucket
+- Show detected platform, let user confirm or override
+
+### 4. Notion Session Log Page
 Configure where to save session logs in Notion.
 - Ask the user for their Notion page URL or ID.
 - Ask whether to use an existing page/database or create a new one.
 - Record the selected page ID.
 
-### 4. Session Log Format
+### 5. Session Log Format
 Ask what to include in session logs:
 - Conversation summary (included by default)
 - Changed file list
@@ -42,6 +47,7 @@ After all questions, save the collected settings to `.my-ops-config.json` in the
   "commitConvention": "conventional | gitmoji | plain | custom",
   "commitConventionDetail": "detailed description if custom",
   "commitLanguage": "ko | en | mixed",
+  "gitPlatform": "github | gitlab | bitbucket",
   "notion": {
     "pageId": "notion page ID",
     "pageName": "page name",

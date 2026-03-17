@@ -1,13 +1,23 @@
 ---
 name: review
-description: Review code changes and provide structured feedback.
+description: Review code changes and provide structured feedback (GitHub, GitLab, Bitbucket).
 ---
 
 # Code Review
 
 ## Prerequisites
 - Verify the current directory is a git repository.
-- Determine what to review (staged changes, branch diff, or specific PR).
+- Detect the git platform (see "Platform Detection" below) when reviewing a PR/MR.
+- Determine what to review (staged changes, branch diff, or specific PR/MR).
+
+## Platform Detection
+Detect the platform from the remote URL by running `git remote get-url origin`:
+- Contains `github.com` → **GitHub** (use `gh` CLI)
+- Contains `gitlab.com` or `gitlab` in hostname → **GitLab** (use `glab` CLI)
+- Contains `bitbucket.org` or `bitbucket` in hostname → **Bitbucket** (use Bitbucket API via `curl`)
+
+If `.my-ops-config.json` has a `gitPlatform` field, use that as override.
+If the platform cannot be detected, ask the user.
 
 ## Steps
 
@@ -15,7 +25,7 @@ description: Review code changes and provide structured feedback.
 Ask the user or detect automatically:
 - **Staged changes**: `git diff --cached`
 - **Branch diff**: `git diff main...HEAD` (or `master...HEAD`)
-- **Specific PR**: `gh pr diff <number>`
+- **Specific PR/MR**: GitHub `gh pr diff <number>` / GitLab `glab mr diff <number>` / Bitbucket API
 - **Specific commits**: `git diff <commit1>..<commit2>`
 
 ### 2. Collect Changes
