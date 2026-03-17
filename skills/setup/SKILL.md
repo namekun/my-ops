@@ -31,13 +31,25 @@ Automatically detect the git hosting platform by running `git remote get-url ori
 Show the detected platform and ask the user to confirm or override.
 If no remote is configured, ask the user to choose manually.
 
-### 4. Notion Session Log Page
+### 4. Git Workflow
+Ask which branching strategy they use:
+- **Git Flow**: `feature/`, `release/`, `hotfix/` branches + `develop` branch
+- **GitHub Flow**: `feature/` branches → merge directly to `main`
+- **Trunk-based**: short-lived branches → fast merge to `main`
+- **Custom**: user describes their own strategy
+
+Based on the selection, configure:
+- Default base branch (`main`, `master`, or `develop`)
+- Branch prefixes (`feature/`, `fix/`, `hotfix/`, `release/`, etc.)
+- Whether a `develop` branch is used
+
+### 5. Notion Session Log Page
 Configure where to save session logs in Notion.
 - Use the Notion MCP server to search the user's workspace and choose a location together.
 - Ask whether to use an existing page/database or create a new one.
 - Record the selected page ID.
 
-### 5. Session Log Format
+### 6. Session Log Format
 Ask what to include in session logs:
 - Conversation summary (included by default)
 - Changed file list
@@ -55,6 +67,17 @@ After all questions, save the collected settings to `.my-ops-config.json` in the
   "commitConventionDetail": "detailed description if custom",
   "commitLanguage": "ko | en | mixed",
   "gitPlatform": "github | gitlab | bitbucket",
+  "gitWorkflow": "git-flow | github-flow | trunk-based | custom",
+  "branches": {
+    "main": "main",
+    "develop": "develop",
+    "prefixes": {
+      "feature": "feature/",
+      "fix": "fix/",
+      "hotfix": "hotfix/",
+      "release": "release/"
+    }
+  },
   "notion": {
     "pageId": "notion page ID",
     "pageName": "page name",

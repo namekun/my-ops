@@ -31,8 +31,13 @@ Run:
 If the branch is `main` or `master`, inform the user: "You're on the default branch. Create a feature branch first."
 
 ### 2. Determine Base Branch
-- Try `main` first, then `master`
-- If neither exists, ask the user which branch to target
+If `.my-ops-config.json` exists, use `gitWorkflow` and `branches` settings:
+- **Git Flow**: feature/fix branches → `develop`, hotfix/release branches → `main`
+- **GitHub Flow / Trunk-based**: always → `main` (or `master`)
+- **Custom**: use configured `branches.main` value
+
+If no config exists, try `main` first, then `master`.
+If neither exists, ask the user which branch to target.
 
 ### 3. Generate PR Title and Description
 Based on the commits and diff:
