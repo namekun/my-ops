@@ -91,7 +91,7 @@ cp -r .my-ops/.github/copilot/ .github/copilot/
 /my-ops:review         # 코드 리뷰
 /my-ops:changelog      # CHANGELOG 생성
 /my-ops:branch         # 브랜치 생성
-/my-ops:issue          # GitHub Issue 생성
+/my-ops:issue          # Issue 생성
 /my-ops:pre-commit     # 커밋 전 검사
 /my-ops:diff-summary   # 변경사항 요약
 ```
@@ -113,7 +113,7 @@ Cursor에서는 자연어로 호출합니다:
 "코드 리뷰"            # 코드 리뷰
 "changelog"            # CHANGELOG 생성
 "브랜치 만들어"         # 브랜치 생성
-"이슈 만들어"           # GitHub Issue 생성
+"이슈 만들어"           # Issue 생성
 "커밋 전 검사"          # 커밋 전 검사
 "변경 요약"             # 변경사항 요약
 ```
@@ -133,7 +133,7 @@ Copilot Chat에서 자연어로 호출합니다:
 "코드 리뷰"            # 코드 리뷰
 "changelog"            # CHANGELOG 생성
 "브랜치 만들어"         # 브랜치 생성
-"이슈 만들어"           # GitHub Issue 생성
+"이슈 만들어"           # Issue 생성
 "커밋 전 검사"          # 커밋 전 검사
 "변경 요약"             # 변경사항 요약
 ```
