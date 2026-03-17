@@ -11,6 +11,14 @@
 | commit | 파일 스테이징 + 추천 메시지로 커밋 |
 | push | 현재 브랜치를 원격에 push |
 | session-log | 세션 대화 요약 및 작업 내역을 Notion에 기록 |
+| **recap** | 어제 작업 내역 리스트업 (커밋, 변경 파일, 브랜치 등) |
+| **pr** | GitHub PR 자동 생성 (제목/본문/라벨 추천) |
+| **review** | 코드 변경사항 리뷰 및 구조화된 피드백 |
+| **changelog** | 커밋 히스토리 기반 CHANGELOG 자동 생성 |
+| **branch** | 컨벤션에 맞는 브랜치명 자동 생성 + 체크아웃 |
+| **issue** | 자연어로 GitHub Issue 생성 |
+| **pre-commit** | 커밋 전 lint/format/test 자동 실행 및 결과 요약 |
+| **diff-summary** | 변경사항 요약 및 영향도 분석 |
 
 ## 지원 도구
 
@@ -78,6 +86,14 @@ cp -r .my-ops/.github/copilot/ .github/copilot/
 /my-ops:commit         # 스테이징 + 커밋
 /my-ops:push           # push
 /my-ops:session-log    # 세션 → Notion 기록
+/my-ops:recap          # 어제 작업 내역 요약
+/my-ops:pr             # PR 생성
+/my-ops:review         # 코드 리뷰
+/my-ops:changelog      # CHANGELOG 생성
+/my-ops:branch         # 브랜치 생성
+/my-ops:issue          # GitHub Issue 생성
+/my-ops:pre-commit     # 커밋 전 검사
+/my-ops:diff-summary   # 변경사항 요약
 ```
 
 Claude Code에서는 `PreCompact` hook이 설정되어 있어, 컨텍스트 압축 시 자동으로 Notion에 세션을 기록합니다.
@@ -92,6 +108,14 @@ Cursor에서는 자연어로 호출합니다:
 "커밋해줘"              # 스테이징 + 커밋
 "푸시해줘"              # push
 "세션 기록"             # 세션 → Notion 기록
+"어제 뭐했지"           # 작업 내역 요약
+"PR 만들어"            # PR 생성
+"코드 리뷰"            # 코드 리뷰
+"changelog"            # CHANGELOG 생성
+"브랜치 만들어"         # 브랜치 생성
+"이슈 만들어"           # GitHub Issue 생성
+"커밋 전 검사"          # 커밋 전 검사
+"변경 요약"             # 변경사항 요약
 ```
 
 ### GitHub Copilot
@@ -104,6 +128,14 @@ Copilot Chat에서 자연어로 호출합니다:
 "커밋해줘"              # 스테이징 + 커밋
 "푸시해줘"              # push
 "세션 기록"             # 세션 → Notion 기록
+"어제 뭐했지"           # 작업 내역 요약
+"PR 만들어"            # PR 생성
+"코드 리뷰"            # 코드 리뷰
+"changelog"            # CHANGELOG 생성
+"브랜치 만들어"         # 브랜치 생성
+"이슈 만들어"           # GitHub Issue 생성
+"커밋 전 검사"          # 커밋 전 검사
+"변경 요약"             # 변경사항 요약
 ```
 
 ## 시작하기
@@ -121,13 +153,23 @@ Copilot Chat에서 자연어로 호출합니다:
 ### 2. 일상 워크플로
 
 ```
+브랜치 생성 (branch)
+    ↓
 코딩 작업...
     ↓
-commit         # 변경분 확인 → 메시지 추천 → 커밋
+변경 확인 (diff-summary)
     ↓
-push           # 원격에 push
+커밋 전 검사 (pre-commit)
     ↓
-session-log    # 하루 마무리 → Notion에 기록
+커밋 (commit)
+    ↓
+푸시 (push)
+    ↓
+PR 생성 (pr)
+    ↓
+코드 리뷰 (review)
+    ↓
+다음 날 → 작업 회고 (recap)
 ```
 
 ## 설정 파일
@@ -165,7 +207,15 @@ my-ops/
 │   ├── commit-msg/SKILL.md
 │   ├── commit/SKILL.md
 │   ├── push/SKILL.md
-│   └── session-log/SKILL.md
+│   ├── session-log/SKILL.md
+│   ├── recap/SKILL.md
+│   ├── pr/SKILL.md
+│   ├── review/SKILL.md
+│   ├── changelog/SKILL.md
+│   ├── branch/SKILL.md
+│   ├── issue/SKILL.md
+│   ├── pre-commit/SKILL.md
+│   └── diff-summary/SKILL.md
 ├── hooks/                       # Claude Code 훅
 │   └── hooks.json               # PreCompact → 자동 세션 기록
 ├── .cursor/rules/               # Cursor 룰
@@ -173,19 +223,36 @@ my-ops/
 │   ├── commit-msg.mdc
 │   ├── commit.mdc
 │   ├── push.mdc
-│   └── session-log.mdc
+│   ├── session-log.mdc
+│   ├── recap.mdc
+│   ├── pr.mdc
+│   ├── review.mdc
+│   ├── changelog.mdc
+│   ├── branch.mdc
+│   ├── issue.mdc
+│   ├── pre-commit.mdc
+│   └── diff-summary.mdc
 ├── .github/copilot/             # GitHub Copilot 지침
 │   ├── setup.md
 │   ├── commit-msg.md
 │   ├── commit.md
 │   ├── push.md
-│   └── session-log.md
+│   ├── session-log.md
+│   ├── recap.md
+│   ├── pr.md
+│   ├── review.md
+│   ├── changelog.md
+│   ├── branch.md
+│   ├── issue.md
+│   ├── pre-commit.md
+│   └── diff-summary.md
 └── README.md
 ```
 
 ## 요구 사항
 
 - [Claude Code](https://claude.com/claude-code), [Cursor](https://cursor.com), 또는 [GitHub Copilot](https://github.com/features/copilot) 중 하나
+- `gh` CLI ([GitHub CLI](https://cli.github.com/)) — pr, issue, review 기능 사용 시
 - Notion 연동 (session-log 사용 시)
   - Claude Code: Notion MCP 서버 연결
   - Cursor / Copilot: Notion API 키 설정

@@ -1,0 +1,33 @@
+---
+description: Summarize yesterday's work. Run when user says "recap", "어제 뭐했지", "작업 내역", or "standup".
+globs:
+alwaysApply: false
+---
+
+# Work Recap
+
+## Prerequisites
+- Verify the current directory is a git repository.
+
+## Steps
+
+### 1. Determine Time Range
+- Default: yesterday (from 00:00 to 23:59)
+- If the user specifies a different range, adjust accordingly
+
+### 2. Collect Data
+Run:
+- `git log --oneline --since="yesterday 00:00" --until="today 00:00" --author="$(git config user.name)"` — commits
+- `git log --since="yesterday 00:00" --until="today 00:00" --name-status --pretty=format:""` — changed files
+- `git reflog --since="yesterday 00:00" --until="today 00:00"` — branch activity
+
+### 3. Display Results
+Present the recap:
+- List of commits with hashes
+- Files changed (created, modified, deleted)
+- Branches worked on
+- Brief AI summary of the day's work
+
+### 4. Offer Next Steps
+- Format as standup message if requested
+- Show specific commit details if requested
