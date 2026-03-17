@@ -12,11 +12,11 @@
 | push | 현재 브랜치를 원격에 push |
 | session-log | 세션 대화 요약 및 작업 내역을 Notion에 기록 |
 | **recap** | 어제 작업 내역 리스트업 (커밋, 변경 파일, 브랜치 등) |
-| **pr** | GitHub PR 자동 생성 (제목/본문/라벨 추천) |
-| **review** | 코드 변경사항 리뷰 및 구조화된 피드백 |
+| **pr** | PR/MR 자동 생성 — GitHub, GitLab, Bitbucket 지원 |
+| **review** | 코드 변경사항 리뷰 및 구조화된 피드백 (PR/MR diff 포함) |
 | **changelog** | 커밋 히스토리 기반 CHANGELOG 자동 생성 |
 | **branch** | 컨벤션에 맞는 브랜치명 자동 생성 + 체크아웃 |
-| **issue** | 자연어로 GitHub Issue 생성 |
+| **issue** | 자연어로 Issue 생성 — GitHub, GitLab, Bitbucket 지원 |
 | **pre-commit** | 커밋 전 lint/format/test 자동 실행 및 결과 요약 |
 | **diff-summary** | 변경사항 요약 및 영향도 분석 |
 
