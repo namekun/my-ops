@@ -24,13 +24,22 @@ Detect from `git remote get-url origin`:
 - `github.com` → GitHub, `gitlab.com`/`gitlab` → GitLab, `bitbucket.org`/`bitbucket` → Bitbucket
 - Show detected platform, let user confirm or override
 
-### 4. Notion Session Log Page
+### 4. Git Workflow
+Ask which branching strategy:
+- **Git Flow**: `feature/`, `release/`, `hotfix/` + `develop` branch
+- **GitHub Flow**: `feature/` → `main` 직접 머지
+- **Trunk-based**: 짧은 브랜치 → `main` 빠른 머지
+- **Custom**: 직접 설정
+
+Configure: default base branch, branch prefixes, develop 브랜치 사용 여부
+
+### 5. Notion Session Log Page
 Configure where to save session logs in Notion.
 - Ask the user for their Notion page URL or ID.
 - Ask whether to use an existing page/database or create a new one.
 - Record the selected page ID.
 
-### 5. Session Log Format
+### 6. Session Log Format
 Ask what to include in session logs:
 - Conversation summary (included by default)
 - Changed file list
@@ -48,6 +57,12 @@ After all questions, save the collected settings to `.my-ops-config.json` in the
   "commitConventionDetail": "detailed description if custom",
   "commitLanguage": "ko | en | mixed",
   "gitPlatform": "github | gitlab | bitbucket",
+  "gitWorkflow": "git-flow | github-flow | trunk-based | custom",
+  "branches": {
+    "main": "main",
+    "develop": "develop",
+    "prefixes": { "feature": "feature/", "fix": "fix/", "hotfix": "hotfix/", "release": "release/" }
+  },
   "notion": {
     "pageId": "notion page ID",
     "pageName": "page name",

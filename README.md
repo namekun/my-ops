@@ -6,7 +6,7 @@
 
 | 기능 | 설명 |
 |------|------|
-| setup | 초기 설정 (커밋 컨벤션, Notion 페이지 등) |
+| setup | 초기 설정 (커밋 컨벤션, Git 워크플로, Notion 페이지 등) |
 | commit-msg | 변경 사항 분석 후 커밋 메시지 3개 추천 |
 | commit | 파일 스테이징 + 추천 메시지로 커밋 |
 | push | 현재 브랜치를 원격에 push |
@@ -145,6 +145,7 @@ Copilot Chat에서 자연어로 호출합니다:
 다음 항목들을 설정합니다:
 - Git 커밋 메시지 컨벤션 (Conventional Commits, Gitmoji, Plain, Custom)
 - 커밋 메시지 언어 (한국어/영어/혼합)
+- Git 워크플로 (Git Flow, GitHub Flow, Trunk-based, Custom)
 - Notion 세션 기록 위치
 - 세션 기록 포함 항목
 
@@ -183,6 +184,17 @@ PR 생성 (pr)
   "commitConvention": "conventional",
   "commitLanguage": "en",
   "gitPlatform": "github",
+  "gitWorkflow": "github-flow",
+  "branches": {
+    "main": "main",
+    "develop": "",
+    "prefixes": {
+      "feature": "feature/",
+      "fix": "fix/",
+      "hotfix": "hotfix/",
+      "release": "release/"
+    }
+  },
   "notion": {
     "pageId": "your-notion-page-id",
     "pageName": "Dev Log",

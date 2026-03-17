@@ -11,13 +11,22 @@ description: Create and checkout a branch with a conventioned name.
 
 ## Steps
 
-### 1. Get Branch Purpose
+### 1. Load Workflow Config
+If `.my-ops-config.json` exists, read `gitWorkflow` and `branches` settings:
+- Use configured prefixes instead of defaults
+- Determine base branch from config (`main`, `master`, or `develop`)
+- For **Git Flow**: feature branches come from `develop`, hotfix from `main`
+- For **GitHub Flow** / **Trunk-based**: all branches come from `main`
+
+If no config exists, use defaults.
+
+### 2. Get Branch Purpose
 Ask the user what they're working on. Accept either:
 - A description: "login page with OAuth"
 - An issue reference: "#42" or "PROJ-123"
 
-### 2. Determine Branch Type
-Ask or infer from the description:
+### 3. Determine Branch Type
+Ask or infer from the description. Use configured prefixes if available, otherwise defaults:
 - `feature/` — new functionality
 - `fix/` — bug fix
 - `hotfix/` — urgent production fix
@@ -26,8 +35,8 @@ Ask or infer from the description:
 - `test/` — test additions
 - `chore/` — maintenance tasks
 
-### 3. Generate Branch Name
-Create a branch name following the pattern: `<type>/<short-description>`
+### 4. Generate Branch Name
+Create a branch name following the pattern: `<prefix><short-description>`
 
 Rules:
 - Lowercase only
@@ -41,7 +50,7 @@ Rules:
 - "#42 fix button alignment" → `fix/42-button-alignment`
 - "update README" → `docs/update-readme`
 
-### 4. Recommend and Confirm
+### 5. Recommend and Confirm
 Show 2-3 branch name options:
 
 ```
@@ -53,12 +62,15 @@ Recommended branch names:
 
 Let the user pick or type their own.
 
-### 5. Create and Checkout
+### 6. Create and Checkout
 - Ensure the base branch is up to date: `git fetch origin`
+- Checkout the correct base branch first:
+  - **Git Flow**: `develop` for feature/fix, `main` for hotfix/release
+  - **GitHub Flow / Trunk-based**: `main` (or `master`)
 - Create and switch: `git checkout -b <branch-name>`
 - Confirm creation: `git branch --show-current`
 
-### 6. Show Result
+### 7. Show Result
 Display:
 - Created branch name
 - Base branch it was created from
