@@ -1,0 +1,28 @@
+---
+description: Run pre-commit checks. Run when user says "pre-commit", "check", "검사", "린트", or "커밋 전 검사".
+globs:
+alwaysApply: false
+---
+
+# Pre-Commit Check
+
+## Prerequisites
+- Verify the current directory is a git repository.
+- Ensure there are changes to check.
+
+## Steps
+
+### 1. Detect Tools
+Scan for: linter, formatter, type checker, test runner from `package.json`, `Makefile`, config files.
+
+### 2. Show Detected Checks
+List what will run with ✅ (found) or ❌ (not found).
+
+### 3. Run Checks
+Execute in order: format check → lint → type check → tests.
+Show ✅/❌ for each with error summaries.
+
+### 4. Offer Fixes
+- Auto-fix lint errors
+- Auto-format files
+- Proceed to commit if all pass
