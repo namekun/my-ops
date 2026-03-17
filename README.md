@@ -16,7 +16,7 @@
 | **review** | 코드 변경사항 리뷰 및 구조화된 피드백 |
 | **changelog** | 커밋 히스토리 기반 CHANGELOG 자동 생성 |
 | **branch** | 컨벤션에 맞는 브랜치명 자동 생성 + 체크아웃 |
-| **issue** | 자연어로 GitHub Issue 생성 |
+| **issue** | 자연어로 Issue 생성 — GitHub, GitLab, Bitbucket 지원 |
 | **pre-commit** | 커밋 전 lint/format/test 자동 실행 및 결과 요약 |
 | **diff-summary** | 변경사항 요약 및 영향도 분석 |
 
@@ -91,7 +91,7 @@ cp -r .my-ops/.github/copilot/ .github/copilot/
 /my-ops:review         # 코드 리뷰
 /my-ops:changelog      # CHANGELOG 생성
 /my-ops:branch         # 브랜치 생성
-/my-ops:issue          # GitHub Issue 생성
+/my-ops:issue          # Issue 생성
 /my-ops:pre-commit     # 커밋 전 검사
 /my-ops:diff-summary   # 변경사항 요약
 ```
@@ -113,7 +113,7 @@ Cursor에서는 자연어로 호출합니다:
 "코드 리뷰"            # 코드 리뷰
 "changelog"            # CHANGELOG 생성
 "브랜치 만들어"         # 브랜치 생성
-"이슈 만들어"           # GitHub Issue 생성
+"이슈 만들어"           # Issue 생성
 "커밋 전 검사"          # 커밋 전 검사
 "변경 요약"             # 변경사항 요약
 ```
@@ -133,7 +133,7 @@ Copilot Chat에서 자연어로 호출합니다:
 "코드 리뷰"            # 코드 리뷰
 "changelog"            # CHANGELOG 생성
 "브랜치 만들어"         # 브랜치 생성
-"이슈 만들어"           # GitHub Issue 생성
+"이슈 만들어"           # Issue 생성
 "커밋 전 검사"          # 커밋 전 검사
 "변경 요약"             # 변경사항 요약
 ```
