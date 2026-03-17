@@ -1,10 +1,14 @@
-# my-ops Pull Request Creation
+# my-ops Pull Request / Merge Request Creation
 
 When the user asks to "create PR", "PR 만들어", "풀리퀘", or "PR", run this process.
 
 ## Prerequisites
 - Verify the current directory is a git repository.
-- Check that `gh` CLI is installed and authenticated.
+- Detect platform from `git remote get-url origin`:
+  - `github.com` → GitHub (`gh` CLI)
+  - `gitlab.com` or `gitlab` → GitLab (`glab` CLI)
+  - `bitbucket.org` or `bitbucket` → Bitbucket (API)
+- Check the appropriate CLI is installed.
 
 ## Steps
 
@@ -15,16 +19,18 @@ When the user asks to "create PR", "PR 만들어", "풀리퀘", or "PR", run thi
 
 If on `main`/`master`, tell the user to create a feature branch first.
 
-### 2. Generate PR Title and Description
+### 2. Generate PR/MR Title and Description
 - Title: under 70 characters, follows commit convention
 - Body: Summary (1-3 bullets), Changes list, Test plan checklist
 
 ### 3. Show Preview and Confirm
 Display generated content. Let user edit, add labels or reviewers.
 
-### 4. Push and Create PR
+### 4. Push and Create PR/MR
 - Push if needed: `git push -u origin <branch>`
-- Create: `gh pr create --title "..." --body "..."`
+- GitHub: `gh pr create --title "..." --body "..."`
+- GitLab: `glab mr create --title "..." --description "..."`
+- Bitbucket: API via `curl`
 
 ### 5. Show Result
-Display PR URL and number.
+Display PR/MR URL and number.

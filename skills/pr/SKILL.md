@@ -1,14 +1,24 @@
 ---
 name: pr
-description: Create a GitHub pull request with auto-generated title and description.
+description: Create a pull request (GitHub, GitLab, Bitbucket) with auto-generated title and description.
 ---
 
 # Pull Request Creation
 
 ## Prerequisites
 - Verify the current directory is a git repository.
-- Check that `gh` CLI is installed and authenticated.
-- Ensure there are commits to include in the PR.
+- Detect the git platform (see "Platform Detection" below).
+- Check the appropriate CLI is installed and authenticated.
+- Ensure there are commits to include in the PR/MR.
+
+## Platform Detection
+Detect the platform from the remote URL by running `git remote get-url origin`:
+- Contains `github.com` → **GitHub** (use `gh` CLI)
+- Contains `gitlab.com` or `gitlab` in hostname → **GitLab** (use `glab` CLI)
+- Contains `bitbucket.org` or `bitbucket` in hostname → **Bitbucket** (use Bitbucket API via `curl`)
+
+If `.my-ops-config.json` has a `gitPlatform` field, use that as override.
+If the platform cannot be detected, ask the user.
 
 ## Steps
 
@@ -44,17 +54,39 @@ Display the generated title and description. Ask the user:
 - Confirm or edit the description
 - Add labels, reviewers, or assignees (optional)
 
-### 5. Push and Create PR
+### 5. Push and Create PR/MR
 - If the branch has no remote tracking: `git push -u origin <branch>`
-- Create PR using `gh pr create`:
-  ```
-  gh pr create --title "title" --body "body"
-  ```
-- Add labels if requested: `--label "label1,label2"`
-- Add reviewers if requested: `--reviewer "user1,user2"`
+- Create PR/MR using the detected platform CLI:
+
+**GitHub** (`gh`):
+```
+gh pr create --title "title" --body "body"
+```
+- Add labels: `--label "label1,label2"`
+- Add reviewers: `--reviewer "user1,user2"`
+
+**GitLab** (`glab`):
+```
+glab mr create --title "title" --description "body"
+```
+- Add labels: `--label "label1,label2"`
+- Add reviewers: `--reviewer "user1,user2"`
+
+**Bitbucket** (API via `curl`):
+```
+curl -X POST -u "$BITBUCKET_USER:$BITBUCKET_APP_PASSWORD" \
+  "https://api.bitbucket.org/2.0/repositories/{owner}/{repo}/pullrequests" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "title", "description": "body", "source": {"branch": {"name": "<branch>"}}, "destination": {"branch": {"name": "main"}}}'
+```
+
+If the CLI for the detected platform is not installed, show installation instructions:
+- GitHub: `brew install gh` / `apt install gh`
+- GitLab: `brew install glab` / `apt install glab`
+- Bitbucket: Requires `BITBUCKET_USER` and `BITBUCKET_APP_PASSWORD` env vars
 
 ### 6. Show Result
 Display:
-- PR URL
-- PR number
+- PR/MR URL
+- PR/MR number
 - Status

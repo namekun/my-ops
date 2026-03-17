@@ -1,13 +1,23 @@
 ---
 name: issue
-description: Create a GitHub issue from a natural language description.
+description: Create an issue (GitHub, GitLab, Bitbucket) from a natural language description.
 ---
 
-# GitHub Issue Creation
+# Issue Creation
 
 ## Prerequisites
-- Verify the current directory is a git repository with a GitHub remote.
-- Check that `gh` CLI is installed and authenticated.
+- Verify the current directory is a git repository with a remote.
+- Detect the git platform (see "Platform Detection" below).
+- Check the appropriate CLI is installed and authenticated.
+
+## Platform Detection
+Detect the platform from the remote URL by running `git remote get-url origin`:
+- Contains `github.com` → **GitHub** (use `gh` CLI)
+- Contains `gitlab.com` or `gitlab` in hostname → **GitLab** (use `glab` CLI)
+- Contains `bitbucket.org` or `bitbucket` in hostname → **Bitbucket** (use Bitbucket API via `curl`)
+
+If `.my-ops-config.json` has a `gitPlatform` field, use that as override.
+If the platform cannot be detected, ask the user.
 
 ## Steps
 
@@ -73,10 +83,27 @@ Display the generated title and body. Ask the user:
 - Assign to someone (optional)
 
 ### 5. Create Issue
-Use `gh issue create`:
+Use the detected platform CLI:
+
+**GitHub** (`gh`):
 ```
 gh issue create --title "title" --body "body" --label "label"
 ```
+
+**GitLab** (`glab`):
+```
+glab issue create --title "title" --description "body" --label "label"
+```
+
+**Bitbucket** (API via `curl`):
+```
+curl -X POST -u "$BITBUCKET_USER:$BITBUCKET_APP_PASSWORD" \
+  "https://api.bitbucket.org/2.0/repositories/{owner}/{repo}/issues" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "title", "content": {"raw": "body"}, "kind": "bug|enhancement|proposal|task"}'
+```
+
+If the CLI for the detected platform is not installed, show installation instructions.
 
 ### 6. Show Result
 Display:
