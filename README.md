@@ -169,10 +169,18 @@ $commit-msg            # 커밋 메시지 추천
 $commit                # 스테이징 + 커밋
 $push                  # push
 $session-log           # 세션 → Notion 기록
+$recap                 # 어제 작업 내역 요약
+$pr                    # PR 생성
+$review                # 코드 리뷰
+$changelog             # CHANGELOG 생성
+$branch                # 브랜치 생성
+$issue                 # Issue 생성
+$pre-commit            # 커밋 전 검사
+$diff-summary          # 변경사항 요약
 
 # 자연어도 가능
 "커밋해줘"              # → $commit 자동 트리거
-"푸시해줘"              # → $push 자동 트리거
+"PR 만들어"            # → $pr 자동 트리거
 ```
 
 ## 시작하기
@@ -303,7 +311,15 @@ my-ops/
 │   ├── commit-msg/SKILL.md
 │   ├── commit/SKILL.md
 │   ├── push/SKILL.md
-│   └── session-log/SKILL.md
+│   ├── session-log/SKILL.md
+│   ├── recap/SKILL.md
+│   ├── pr/SKILL.md
+│   ├── review/SKILL.md
+│   ├── changelog/SKILL.md
+│   ├── branch/SKILL.md
+│   ├── issue/SKILL.md
+│   ├── pre-commit/SKILL.md
+│   └── diff-summary/SKILL.md
 └── README.md
 ```
 
