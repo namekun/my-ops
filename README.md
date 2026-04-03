@@ -1,6 +1,6 @@
 # my-ops
 
-나만의 개발 워크플로 자동화 도구. Claude Code, Cursor, GitHub Copilot을 지원합니다.
+나만의 개발 워크플로 자동화 도구. Claude Code, Cursor, GitHub Copilot, Codex를 지원합니다.
 
 ## 기능
 
@@ -27,6 +27,7 @@
 | Claude Code | 플러그인 (Skills) | `/my-ops:commit` |
 | Cursor | Rules (`.mdc`) | 자연어 (`"커밋해줘"`) |
 | GitHub Copilot | Instructions (`.md`) | 자연어 (`"커밋해줘"`) |
+| Codex | AGENTS.md | 자연어 (`"커밋해줘"`) |
 
 ## 설치
 
@@ -75,6 +76,25 @@ cp -r .my-ops/.github/copilot/ .github/copilot/
 ```
 
 > **참고**: GitHub Copilot에서 커스텀 지침을 사용하려면 VS Code 설정에서 `github.copilot.chat.codeGeneration.useInstructionFiles`를 `true`로 설정해야 합니다.
+
+### Codex
+
+`codex/AGENTS.md`를 프로젝트 루트에 복사하세요:
+
+```bash
+git clone https://github.com/namekun/my-ops.git
+cp my-ops/codex/AGENTS.md your-project/AGENTS.md
+```
+
+또는 서브모듈로 추가:
+
+```bash
+cd your-project
+git submodule add https://github.com/namekun/my-ops.git .my-ops
+cp .my-ops/codex/AGENTS.md AGENTS.md
+```
+
+> **참고**: 프로젝트에 이미 `AGENTS.md`가 있는 경우, 기존 내용 아래에 my-ops 내용을 추가하세요.
 
 ## 사용법
 
@@ -136,6 +156,18 @@ Copilot Chat에서 자연어로 호출합니다:
 "이슈 만들어"           # Issue 생성
 "커밋 전 검사"          # 커밋 전 검사
 "변경 요약"             # 변경사항 요약
+```
+
+### Codex
+
+Codex CLI에서 자연어로 호출합니다:
+
+```
+"my-ops setup"         # 초기 설정
+"커밋 메시지 추천"       # 커밋 메시지 추천
+"커밋해줘"              # 스테이징 + 커밋
+"푸시해줘"              # push
+"세션 기록"             # 세션 → Notion 기록
 ```
 
 ## 시작하기
@@ -261,12 +293,14 @@ my-ops/
 │   ├── issue.md
 │   ├── pre-commit.md
 │   └── diff-summary.md
+├── codex/                       # Codex CLI 지침
+│   └── AGENTS.md
 └── README.md
 ```
 
 ## 요구 사항
 
-- [Claude Code](https://claude.com/claude-code), [Cursor](https://cursor.com), 또는 [GitHub Copilot](https://github.com/features/copilot) 중 하나
+- [Claude Code](https://claude.com/claude-code), [Cursor](https://cursor.com), [GitHub Copilot](https://github.com/features/copilot), 또는 [Codex](https://github.com/openai/codex) 중 하나
 - Git 호스팅 플랫폼 CLI (pr, issue, review 기능 사용 시):
   - GitHub: [`gh`](https://cli.github.com/)
   - GitLab: [`glab`](https://gitlab.com/gitlab-org/cli)
