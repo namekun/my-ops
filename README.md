@@ -27,7 +27,7 @@
 | Claude Code | 플러그인 (Skills) | `/my-ops:commit` |
 | Cursor | Rules (`.mdc`) | 자연어 (`"커밋해줘"`) |
 | GitHub Copilot | Instructions (`.md`) | 자연어 (`"커밋해줘"`) |
-| Codex | AGENTS.md | 자연어 (`"커밋해줘"`) |
+| Codex | Skills (`SKILL.md`) | `$commit` 또는 자연어 |
 
 ## 설치
 
@@ -79,22 +79,23 @@ cp -r .my-ops/.github/copilot/ .github/copilot/
 
 ### Codex
 
-`codex/AGENTS.md`를 프로젝트 루트에 복사하세요:
+`.codex/skills/` 디렉토리를 글로벌 또는 프로젝트에 설치하세요:
 
 ```bash
+# 글로벌 설치 (모든 프로젝트에서 사용)
 git clone https://github.com/namekun/my-ops.git
-cp my-ops/codex/AGENTS.md your-project/AGENTS.md
+cp -r my-ops/.codex/skills/* ~/.codex/skills/
+
+# 또는 프로젝트별 설치
+cp -r my-ops/.codex/skills/ your-project/.codex/skills/
 ```
 
-또는 서브모듈로 추가:
-
-```bash
-cd your-project
-git submodule add https://github.com/namekun/my-ops.git .my-ops
-cp .my-ops/codex/AGENTS.md AGENTS.md
+또는 Codex 내장 `$skill-installer`로 설치:
+```
+$skill-installer https://github.com/namekun/my-ops
 ```
 
-> **참고**: 프로젝트에 이미 `AGENTS.md`가 있는 경우, 기존 내용 아래에 my-ops 내용을 추가하세요.
+> **호출 방법**: `$commit`, `$push`, `$session-log` 또는 자연어로 호출 가능.
 
 ## 사용법
 
@@ -160,14 +161,18 @@ Copilot Chat에서 자연어로 호출합니다:
 
 ### Codex
 
-Codex CLI에서 자연어로 호출합니다:
+Codex CLI에서 `$` 또는 자연어로 호출합니다:
 
 ```
-"my-ops setup"         # 초기 설정
-"커밋 메시지 추천"       # 커밋 메시지 추천
-"커밋해줘"              # 스테이징 + 커밋
-"푸시해줘"              # push
-"세션 기록"             # 세션 → Notion 기록
+$setup                 # 초기 설정
+$commit-msg            # 커밋 메시지 추천
+$commit                # 스테이징 + 커밋
+$push                  # push
+$session-log           # 세션 → Notion 기록
+
+# 자연어도 가능
+"커밋해줘"              # → $commit 자동 트리거
+"푸시해줘"              # → $push 자동 트리거
 ```
 
 ## 시작하기
@@ -293,8 +298,12 @@ my-ops/
 │   ├── issue.md
 │   ├── pre-commit.md
 │   └── diff-summary.md
-├── codex/                       # Codex CLI 지침
-│   └── AGENTS.md
+├── .codex/skills/               # Codex CLI 스킬
+│   ├── setup/SKILL.md
+│   ├── commit-msg/SKILL.md
+│   ├── commit/SKILL.md
+│   ├── push/SKILL.md
+│   └── session-log/SKILL.md
 └── README.md
 ```
 
