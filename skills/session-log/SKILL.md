@@ -65,3 +65,13 @@ Add a new entry to the database. Map properties to match the database schema.
 ### 4. Confirm
 - Show the user the created Notion page link
 - Ask if anything needs to be added or changed
+
+### 5. Open New Session
+After the user confirms the log is saved:
+- Ask: "새 세션을 시작할까요? (y/n)"
+- If yes: Run the following Bash command to open a new Claude Code session:
+  ```bash
+  open -na "Claude"
+  ```
+  Then tell the user: "새 Claude 세션이 열렸어요. 이 세션은 종료해도 됩니다."
+- If no: End the skill normally.
