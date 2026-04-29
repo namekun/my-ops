@@ -10,7 +10,7 @@
 | commit-msg | 변경 사항 분석 후 커밋 메시지 3개 추천 |
 | commit | 파일 스테이징 + 추천 메시지로 커밋 |
 | push | 현재 브랜치를 원격에 push |
-| session-log | 세션 대화 요약 및 작업 내역을 Notion에 기록 |
+| session-log | 세션 대화 요약 및 작업 내역을 Notion 또는 Obsidian에 기록 |
 | **recap** | 어제 작업 내역 리스트업 (커밋, 변경 파일, 브랜치 등) |
 | **pr** | PR/MR 자동 생성 — GitHub, GitLab, Bitbucket 지원 |
 | **review** | 코드 변경사항 리뷰 및 구조화된 피드백 |
@@ -106,7 +106,7 @@ $skill-installer https://github.com/namekun/my-ops
 /my-ops:commit-msg     # 커밋 메시지 추천
 /my-ops:commit         # 스테이징 + 커밋
 /my-ops:push           # push
-/my-ops:session-log    # 세션 → Notion 기록
+/my-ops:session-log    # 세션 → Notion / Obsidian 기록
 /my-ops:recap          # 어제 작업 내역 요약
 /my-ops:pr             # PR 생성
 /my-ops:review         # 코드 리뷰
@@ -128,7 +128,7 @@ Cursor에서는 자연어로 호출합니다:
 "커밋 메시지 추천"       # 커밋 메시지 추천
 "커밋해줘"              # 스테이징 + 커밋
 "푸시해줘"              # push
-"세션 기록"             # 세션 → Notion 기록
+"세션 기록"             # 세션 → Notion / Obsidian 기록
 "어제 뭐했지"           # 작업 내역 요약
 "PR 만들어"            # PR 생성
 "코드 리뷰"            # 코드 리뷰
@@ -148,7 +148,7 @@ Copilot Chat에서 자연어로 호출합니다:
 "커밋 메시지 추천"       # 커밋 메시지 추천
 "커밋해줘"              # 스테이징 + 커밋
 "푸시해줘"              # push
-"세션 기록"             # 세션 → Notion 기록
+"세션 기록"             # 세션 → Notion / Obsidian 기록
 "어제 뭐했지"           # 작업 내역 요약
 "PR 만들어"            # PR 생성
 "코드 리뷰"            # 코드 리뷰
@@ -168,7 +168,7 @@ $setup                 # 초기 설정
 $commit-msg            # 커밋 메시지 추천
 $commit                # 스테이징 + 커밋
 $push                  # push
-$session-log           # 세션 → Notion 기록
+$session-log           # 세션 → Notion / Obsidian 기록
 $recap                 # 어제 작업 내역 요약
 $pr                    # PR 생성
 $review                # 코드 리뷰
@@ -191,7 +191,7 @@ $diff-summary          # 변경사항 요약
 - Git 커밋 메시지 컨벤션 (Conventional Commits, Gitmoji, Plain, Custom)
 - 커밋 메시지 언어 (한국어/영어/혼합)
 - Git 워크플로 (Git Flow, GitHub Flow, Trunk-based, Custom)
-- Notion 세션 기록 위치
+- 세션 기록 저장소 (Notion, Obsidian, 또는 둘 다)
 - 세션 기록 포함 항목
 
 설정은 프로젝트 루트의 `.my-ops-config.json`에 저장됩니다.
@@ -245,7 +245,14 @@ PR 생성 (pr)
     "pageName": "Dev Log",
     "type": "database"
   },
+  "obsidian": {
+    "vaultPath": "/Users/me/Documents/ObsidianVault",
+    "folder": "Sessions",
+    "filenameFormat": "YYYY-MM-DD-{project}.md",
+    "appendIfExists": true
+  },
   "sessionLog": {
+    "destination": "notion",
     "includeSummary": true,
     "includeFiles": true,
     "includeCommits": true,
@@ -330,9 +337,12 @@ my-ops/
   - GitHub: [`gh`](https://cli.github.com/)
   - GitLab: [`glab`](https://gitlab.com/gitlab-org/cli)
   - Bitbucket: API 사용 (`BITBUCKET_USER`, `BITBUCKET_APP_PASSWORD` 환경변수 필요)
-- Notion 연동 (session-log 사용 시)
-  - Claude Code: Notion MCP 서버 연결
-  - Cursor / Copilot: Notion API 키 설정
+- 세션 기록 저장소 (session-log 사용 시, 둘 중 하나 또는 모두)
+  - Notion
+    - Claude Code: Notion MCP 서버 연결
+    - Cursor / Copilot: Notion API 키 설정
+  - Obsidian
+    - 로컬 Obsidian Vault 경로 (`obsidian.vaultPath`) 만 있으면 됩니다 — 별도 API/플러그인 불필요
 
 ## 라이선스
 

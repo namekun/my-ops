@@ -1,7 +1,7 @@
 {
   "name": "my-ops",
   "version": "2.0.0",
-  "description": "Personal dev workflow toolkit - git workflow automation, code review, and Notion session logging",
+  "description": "Personal dev workflow toolkit - git workflow automation, code review, and Notion/Obsidian session logging",
   "author": {
     "name": "namkun"
   },
