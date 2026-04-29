@@ -4,11 +4,11 @@
   "owner": {
     "name": "namekun"
   },
-  "description": "Personal dev workflow toolkit - git workflow automation, code review, and Notion session logging",
+  "description": "Personal dev workflow toolkit - git workflow automation, code review, and Notion/Obsidian session logging",
   "plugins": [
     {
       "name": "my-ops",
-      "description": "Git workflow automation, code review, and Notion session logging plugin",
+      "description": "Git workflow automation, code review, and Notion/Obsidian session logging plugin",
       "version": "2.0.0",
       "source": "./"
     }

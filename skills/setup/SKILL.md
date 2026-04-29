@@ -43,11 +43,22 @@ Based on the selection, configure:
 - Branch prefixes (`feature/`, `fix/`, `hotfix/`, `release/`, etc.)
 - Whether a `develop` branch is used
 
-### 5. Notion Session Log Page
-Configure where to save session logs in Notion.
+### 5. Session Log Destination
+Ask where to save session logs:
+- **Notion**: Save pages/database entries via the Notion MCP server
+- **Obsidian**: Save markdown files into a local Obsidian vault
+- **Both**: Save to both destinations
+
+#### If Notion is selected
 - Use the Notion MCP server to search the user's workspace and choose a location together.
 - Ask whether to use an existing page/database or create a new one.
-- Record the selected page ID.
+- Record the selected page ID and type (`page` or `database`).
+
+#### If Obsidian is selected
+- Ask the user for the absolute path to their Obsidian vault (e.g. `~/Documents/ObsidianVault`).
+- Ask which folder inside the vault should hold session logs (default: `Sessions`). Create it if it does not exist.
+- Ask for the filename format (default: `YYYY-MM-DD-{project}.md`). Tokens: `YYYY`, `MM`, `DD`, `{project}`.
+- Ask whether to append to an existing daily note or always create a new file (default: append).
 
 ### 6. Session Log Format
 Ask what to include in session logs:
@@ -83,7 +94,14 @@ After all questions, save the collected settings to `.my-ops-config.json` in the
     "pageName": "page name",
     "type": "page | database"
   },
+  "obsidian": {
+    "vaultPath": "/absolute/path/to/vault",
+    "folder": "Sessions",
+    "filenameFormat": "YYYY-MM-DD-{project}.md",
+    "appendIfExists": true
+  },
   "sessionLog": {
+    "destination": "notion | obsidian | both",
     "includeSummary": true,
     "includeFiles": true,
     "includeCommits": true,
@@ -92,6 +110,8 @@ After all questions, save the collected settings to `.my-ops-config.json` in the
   }
 }
 ```
+
+> Only include the `notion` block if Notion is selected, and the `obsidian` block if Obsidian is selected. Omit the unused destination keys to keep the config tidy.
 
 Show a summary of the settings and ask if anything needs to be changed.
 
