@@ -84,6 +84,9 @@ Write a markdown file into the configured Obsidian vault.
 title: "[project-name] YYYY-MM-DD Session Log"
 date: YYYY-MM-DD
 project: project-name
+branch: feature/auth
+open: 로그인 리다이렉트 미해결
+transcript: .transcripts/YYYY-MM-DD-project-a1b2c3d4.jsonl
 tags: [session-log, my-ops]
 ---
 
@@ -106,9 +109,36 @@ tags: [session-log, my-ops]
 
 ## Notes
 (user custom fields)
+
+## Links
+- Project: [[project-name]]
+- Daily: [[YYYY-MM-DD]]
 ```
 
 Write the file using the `Write` tool (or `Edit` for appends). Do not run `cat`/`echo` redirection.
+
+##### Frontmatter fields
+- `branch` — from `git rev-parse --abbrev-ref HEAD`.
+- `open` — anything left unresolved at the end of the session, one line. Omit if
+  nothing is outstanding. This is the single most useful field when picking the
+  session back up later.
+- `transcript` — relative path to the archived raw transcript, if one exists (see
+  below). This is what makes the note a pointer to the full detail rather than a
+  replacement for it.
+
+##### Linking the archived transcript
+The `PreCompact` / `SessionEnd` hook archives the raw transcript into
+`<vaultPath>/<folder>/<archive.rawFolder>/` (default `.transcripts/`) and records
+it in `index.tsv`. That archive holds the detail this summary necessarily drops.
+
+Look up the current session's row in `index.tsv` — match on today's date and the
+project name — and put the filename in the `transcript` frontmatter field. If no
+archive exists yet (the hook has not fired, or the user is not on Claude Code),
+omit the field rather than guessing a filename.
+
+Keep this note a **summary**. Do not try to preserve full detail here — that is
+the archive's job, and duplicating it just recreates the loss in another place.
+Use `/my-ops:recall` to dig detail back out of the archive when it is needed.
 
 ### 4. Confirm
 - Show the user what was created:

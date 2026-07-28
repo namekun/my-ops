@@ -11,6 +11,7 @@
 | commit | 파일 스테이징 + 추천 메시지로 커밋 |
 | push | 현재 브랜치를 원격에 push |
 | session-log | 세션 대화 요약 및 작업 내역을 Notion 또는 Obsidian에 기록 |
+| **recall** | 압축(compact)으로 날아간 과거 세션의 디테일을 아카이브에서 검색 |
 | **recap** | 어제 작업 내역 리스트업 (커밋, 변경 파일, 브랜치 등) |
 | **pr** | PR/MR 자동 생성 — GitHub, GitLab, Bitbucket 지원 |
 | **review** | 코드 변경사항 리뷰 및 구조화된 피드백 |
@@ -107,6 +108,7 @@ $skill-installer https://github.com/namekun/my-ops
 /my-ops:commit         # 스테이징 + 커밋
 /my-ops:push           # push
 /my-ops:session-log    # 세션 → Notion / Obsidian 기록
+/my-ops:recall         # 과거 세션 디테일 검색
 /my-ops:recap          # 어제 작업 내역 요약
 /my-ops:pr             # PR 생성
 /my-ops:review         # 코드 리뷰
@@ -117,7 +119,25 @@ $skill-installer https://github.com/namekun/my-ops
 /my-ops:diff-summary   # 변경사항 요약
 ```
 
-Claude Code에서는 `PreCompact` hook이 설정되어 있어, 컨텍스트 압축 시 자동으로 Notion에 세션을 기록합니다.
+#### 자동 트랜스크립트 아카이빙
+
+컨텍스트가 압축(compact)되면 대화가 요약으로 대체되면서 **구체적인 내용이 사라집니다.**
+무엇을 시도했고 왜 그 방법을 버렸는지 같은 디테일이 여기 포함됩니다.
+
+my-ops는 `PreCompact`와 `SessionEnd` 훅으로 **압축되기 직전의 원본 트랜스크립트를 그대로
+복사**해 Obsidian vault에 보관합니다. 요약이 아니라 원본이라 손실이 없습니다.
+
+- 단순 파일 복사라 **토큰을 전혀 쓰지 않습니다** (모델 호출 없음)
+- `SessionEnd`도 걸려 있어 **압축 없이 끝난 짧은 세션도 누락되지 않습니다**
+- 저장 위치: `<vaultPath>/<folder>/.transcripts/` — 점으로 시작해서 Obsidian 노트
+  그래프에는 안 잡히지만 vault와 함께 동기화됩니다
+- `index.tsv`에 날짜·브랜치·세션 ID가 기록되어, 나중에 큰 파일을 열지 않고도 후보를 좁힐 수 있습니다
+
+나중에 "그때 왜 이렇게 짰지"가 궁금하면 `/my-ops:recall`이 이 아카이브를 검색합니다.
+전체를 불러오지 않고 **매칭되는 부분만 발췌**하므로 조회 비용도 작습니다.
+
+> `.my-ops-config.json`에서 `archive.enabled`를 `false`로 두면 끌 수 있습니다.
+> 트랜스크립트는 누적되므로 vault 용량이 신경 쓰이면 오래된 아카이브를 주기적으로 지우세요.
 
 ### Cursor
 
@@ -129,6 +149,7 @@ Cursor에서는 자연어로 호출합니다:
 "커밋해줘"              # 스테이징 + 커밋
 "푸시해줘"              # push
 "세션 기록"             # 세션 → Notion / Obsidian 기록
+"예전에 왜 이렇게 했지"  # 과거 세션 디테일 검색
 "어제 뭐했지"           # 작업 내역 요약
 "PR 만들어"            # PR 생성
 "코드 리뷰"            # 코드 리뷰
@@ -149,6 +170,7 @@ Copilot Chat에서 자연어로 호출합니다:
 "커밋해줘"              # 스테이징 + 커밋
 "푸시해줘"              # push
 "세션 기록"             # 세션 → Notion / Obsidian 기록
+"예전에 왜 이렇게 했지"  # 과거 세션 디테일 검색
 "어제 뭐했지"           # 작업 내역 요약
 "PR 만들어"            # PR 생성
 "코드 리뷰"            # 코드 리뷰
@@ -169,6 +191,7 @@ $commit-msg            # 커밋 메시지 추천
 $commit                # 스테이징 + 커밋
 $push                  # push
 $session-log           # 세션 → Notion / Obsidian 기록
+$recall                # 과거 세션 디테일 검색
 $recap                 # 어제 작업 내역 요약
 $pr                    # PR 생성
 $review                # 코드 리뷰
@@ -251,6 +274,10 @@ PR 생성 (pr)
     "filenameFormat": "YYYY-MM-DD-{project}.md",
     "appendIfExists": true
   },
+  "archive": {
+    "enabled": true,
+    "rawFolder": ".transcripts"
+  },
   "sessionLog": {
     "destination": "notion",
     "includeSummary": true,
@@ -275,6 +302,7 @@ my-ops/
 │   ├── commit/SKILL.md
 │   ├── push/SKILL.md
 │   ├── session-log/SKILL.md
+│   ├── recall/SKILL.md
 │   ├── recap/SKILL.md
 │   ├── pr/SKILL.md
 │   ├── review/SKILL.md
@@ -284,13 +312,15 @@ my-ops/
 │   ├── pre-commit/SKILL.md
 │   └── diff-summary/SKILL.md
 ├── hooks/                       # Claude Code 훅
-│   └── hooks.json               # PreCompact → 자동 세션 기록
+│   ├── hooks.json               # PreCompact / SessionEnd → 트랜스크립트 아카이빙
+│   └── archive-transcript.sh    # 원본 트랜스크립트 복사 (토큰 0)
 ├── .cursor/rules/               # Cursor 룰
 │   ├── setup.mdc
 │   ├── commit-msg.mdc
 │   ├── commit.mdc
 │   ├── push.mdc
 │   ├── session-log.mdc
+│   ├── recall.mdc
 │   ├── recap.mdc
 │   ├── pr.mdc
 │   ├── review.mdc
@@ -305,6 +335,7 @@ my-ops/
 │   ├── commit.md
 │   ├── push.md
 │   ├── session-log.md
+│   ├── recall.md
 │   ├── recap.md
 │   ├── pr.md
 │   ├── review.md
@@ -319,6 +350,7 @@ my-ops/
 │   ├── commit/SKILL.md
 │   ├── push/SKILL.md
 │   ├── session-log/SKILL.md
+│   ├── recall/SKILL.md
 │   ├── recap/SKILL.md
 │   ├── pr/SKILL.md
 │   ├── review/SKILL.md

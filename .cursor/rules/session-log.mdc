@@ -83,6 +83,9 @@ Write a markdown file into the configured Obsidian vault.
 title: "[project-name] YYYY-MM-DD Session Log"
 date: YYYY-MM-DD
 project: project-name
+branch: feature/auth
+open: 로그인 리다이렉트 미해결
+transcript: .transcripts/YYYY-MM-DD-project-a1b2c3d4.jsonl
 tags: [session-log, my-ops]
 ---
 
@@ -105,7 +108,32 @@ tags: [session-log, my-ops]
 
 ## Notes
 (user custom fields)
+
+## Links
+- Project: [[project-name]]
+- Daily: [[YYYY-MM-DD]]
 ```
+
+##### Frontmatter fields
+- `branch` — from `git rev-parse --abbrev-ref HEAD`.
+- `open` — anything left unresolved at the end of the session, one line. Omit if
+  nothing is outstanding. This is the single most useful field when picking the
+  session back up later.
+- `transcript` — relative path to the archived raw transcript, if one exists.
+
+##### Linking the archived transcript
+The Claude Code `PreCompact` / `SessionEnd` hook archives raw transcripts into
+`<vaultPath>/<folder>/<archive.rawFolder>/` (default `.transcripts/`) and records
+them in `index.tsv`. That archive holds the detail this summary necessarily drops.
+
+Look up the current session's row in `index.tsv` — match on today's date and the
+project name — and put the filename in the `transcript` frontmatter field. If no
+archive exists (the hook has not fired, or this session is not running in Claude
+Code), omit the field rather than guessing a filename.
+
+Keep this note a **summary**. Do not try to preserve full detail here — that is
+the archive's job, and duplicating it just recreates the loss in another place.
+Use the `recall` skill to dig detail back out of the archive when it is needed.
 
 ### 4. Confirm
 - Show the user what was created:

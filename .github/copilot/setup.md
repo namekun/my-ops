@@ -50,6 +50,23 @@ Ask where to save session logs:
 - Ask for the filename format (default: `YYYY-MM-DD-{project}.md`). Tokens: `YYYY`, `MM`, `DD`, `{project}`.
 - Ask whether to append to an existing daily note or always create a new file (default: append).
 
+#### Transcript Archiving (Claude Code only)
+Only ask this if Obsidian is selected — the archive lives inside the vault.
+
+Explain briefly: when Claude Code compacts context, the conversation is replaced
+by a summary and the specifics are lost. The archive keeps a copy of the raw
+transcript so the `recall` skill can dig those specifics back out later.
+
+Ask whether to enable it (default: yes). If yes:
+- Ask for the folder inside the session folder (default: `.transcripts`).
+  A dot-prefixed name keeps raw files out of Obsidian's note graph while still
+  syncing with the vault.
+- Mention the tradeoff: transcripts are full conversation JSONL and accumulate,
+  so the vault grows over time.
+
+Archiving runs as a Claude Code hook and costs no tokens — it is a plain file
+copy. Other tools read and search the archive but do not write to it.
+
 ### 6. Session Log Format
 Ask what to include in session logs:
 - Conversation summary (included by default)
@@ -84,6 +101,10 @@ After all questions, save the collected settings to `.my-ops-config.json` in the
     "folder": "Sessions",
     "filenameFormat": "YYYY-MM-DD-{project}.md",
     "appendIfExists": true
+  },
+  "archive": {
+    "enabled": true,
+    "rawFolder": ".transcripts"
   },
   "sessionLog": {
     "destination": "notion | obsidian | both",
